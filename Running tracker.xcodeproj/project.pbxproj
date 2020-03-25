@@ -16,6 +16,8 @@
 		4093184A2428D14000B21622 /* Running_trackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409318492428D14000B21622 /* Running_trackerTests.swift */; };
 		40931863242A76AC00B21622 /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40931862242A76AC00B21622 /* Presenter.swift */; };
 		40931866242A76D300B21622 /* SessionTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40931865242A76D300B21622 /* SessionTracker.swift */; };
+		FB036D6A242BAE640069D27C /* StartSessionUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB036D69242BAE640069D27C /* StartSessionUseCase.swift */; };
+		FB036D6D242BAEF70069D27C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB036D6C242BAEF70069D27C /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +44,8 @@
 		4093184B2428D14000B21622 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		40931862242A76AC00B21622 /* Presenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presenter.swift; sourceTree = "<group>"; };
 		40931865242A76D300B21622 /* SessionTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTracker.swift; sourceTree = "<group>"; };
+		FB036D69242BAE640069D27C /* StartSessionUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartSessionUseCase.swift; sourceTree = "<group>"; };
+		FB036D6C242BAEF70069D27C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB036D6D242BAEF70069D27C /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +73,7 @@
 				4093182E2428D13E00B21622 /* Running tracker */,
 				409318482428D14000B21622 /* Running trackerTests */,
 				4093182D2428D13E00B21622 /* Products */,
+				FB036D6B242BAEF70069D27C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -83,6 +89,7 @@
 		4093182E2428D13E00B21622 /* Running tracker */ = {
 			isa = PBXGroup;
 			children = (
+				FB036D68242BACC10069D27C /* UseCases */,
 				40931867242A76DD00B21622 /* Model */,
 				40931864242A76B400B21622 /* Presenter */,
 				40931861242A769200B21622 /* View */,
@@ -127,6 +134,22 @@
 				40931865242A76D300B21622 /* SessionTracker.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		FB036D68242BACC10069D27C /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+				FB036D69242BAE640069D27C /* StartSessionUseCase.swift */,
+			);
+			path = UseCases;
+			sourceTree = "<group>";
+		};
+		FB036D6B242BAEF70069D27C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FB036D6C242BAEF70069D27C /* CoreLocation.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,6 +256,7 @@
 				409318342428D13E00B21622 /* ViewController.swift in Sources */,
 				409318302428D13E00B21622 /* AppDelegate.swift in Sources */,
 				409318322428D13E00B21622 /* SceneDelegate.swift in Sources */,
+				FB036D6A242BAE640069D27C /* StartSessionUseCase.swift in Sources */,
 				40931863242A76AC00B21622 /* Presenter.swift in Sources */,
 				40931866242A76D300B21622 /* SessionTracker.swift in Sources */,
 			);

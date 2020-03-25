@@ -9,7 +9,11 @@
 import UIKit
 import MapKit
 
-class ViewController: UIViewController {
+protocol SessionView : class {
+    func requestLocationPermissions()
+}
+
+class ViewController: UIViewController, SessionView {
 
     private let cornerRadius: CGFloat = 4.0
     private let shadowRadius: CGFloat = 4.0
@@ -91,5 +95,16 @@ class ViewController: UIViewController {
         self.sessionsView.topAnchor.constraint(equalTo: self.mapView.bottomAnchor, constant: mapHeight).isActive = true
         self.sessionsView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
     }
+    
+    func requestLocationPermissions() {
+        let alert = UIAlertController(
+            title: "Location Services are disabled",
+            message: "Please enable Location Services in your Settings",
+            preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: {
+            UIApplication.shared.open(URL(string:UIApplicationOpenSettingsURLString)!)
+        })
+    }
 }
-

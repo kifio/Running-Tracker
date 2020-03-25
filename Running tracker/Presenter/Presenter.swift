@@ -9,5 +9,28 @@
 import UIKit
 
 class Presenter: NSObject {
-
+    
+    private weak var view: SessionView?
+    
+    init(view: SessionView) {
+        self.view = view
+    }
+    
+    func startNewSession() {
+        let startSessionUseCase = StartSessionUseCase()
+        startSessionUseCase.startSession(
+            onLocationDenied: { [weak self] in
+                self?.view?.requestLocationPermissions()
+            },
+            onSessionStarted: {
+            
+            },
+            onProgressUpdated: {
+            
+            },
+            onSessionFinished: {
+            
+            }
+        )
+    }
 }
