@@ -18,6 +18,7 @@
 		40931866242A76D300B21622 /* SessionTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40931865242A76D300B21622 /* SessionTracker.swift */; };
 		FB036D6A242BAE640069D27C /* StartSessionUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB036D69242BAE640069D27C /* StartSessionUseCase.swift */; };
 		FB036D6D242BAEF70069D27C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB036D6C242BAEF70069D27C /* CoreLocation.framework */; };
+		FBFD668C242D10B800770B31 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBFD668B242D10B800770B31 /* Session.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		40931865242A76D300B21622 /* SessionTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTracker.swift; sourceTree = "<group>"; };
 		FB036D69242BAE640069D27C /* StartSessionUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartSessionUseCase.swift; sourceTree = "<group>"; };
 		FB036D6C242BAEF70069D27C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		FBFD668B242D10B800770B31 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				40931865242A76D300B21622 /* SessionTracker.swift */,
+				FBFD668B242D10B800770B31 /* Session.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -256,6 +259,7 @@
 				409318342428D13E00B21622 /* ViewController.swift in Sources */,
 				409318302428D13E00B21622 /* AppDelegate.swift in Sources */,
 				409318322428D13E00B21622 /* SceneDelegate.swift in Sources */,
+				FBFD668C242D10B800770B31 /* Session.swift in Sources */,
 				FB036D6A242BAE640069D27C /* StartSessionUseCase.swift in Sources */,
 				40931863242A76AC00B21622 /* Presenter.swift in Sources */,
 				40931866242A76D300B21622 /* SessionTracker.swift in Sources */,

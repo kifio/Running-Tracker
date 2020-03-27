@@ -11,29 +11,31 @@ import CoreLocation
 
 class StartSessionUseCase: NSObject {
     
-    private let locationManager = CLLocationManager()
-    private let sessionTracker = SessionTracker()
-    
-    func startSession(onLocationDenied: () -> Void,
-                      onSessionStarted: () -> Void,
-                      onProgressUpdated: () -> Void,
-                      onSessionFinished: () -> Void
-    ) {
+    func startSession(
+        sessionId: Int,
+        locationManager: CLLocationManager,
+        onLocationStatusNotDetermined: @escaping () -> Void,
+        onLocationDenied: @escaping () -> Void,
+        onSessionStarted: @escaping () -> Void,
+        onProgressUpdated: @escaping ([CLLocationCoordinate2D]) -> Void
+    ) -> SessionTracker? {
         let locStatus = CLLocationManager.authorizationStatus()
         switch locStatus {
         case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
-            return
+            onLocationStatusNotDetermined()
+            return nil
         case .denied, .restricted:
             onLocationDenied()
-            return
+            return nil
         case .authorizedAlways, .authorizedWhenInUse:
-            self.sessionTracker.startNewSession(
-                onProgressUpdated,
-                onSessionFinished
+            let sessionTracker = SessionTracker()
+            sessionTracker.startNewSession(
+                sessionId: sessionId,
+                locationManager: locationManager,
+                onProgressUpdated: onProgressUpdated
             )
             onSessionStarted()
-            break
+            return sessionTracker
         }
     }    
 }

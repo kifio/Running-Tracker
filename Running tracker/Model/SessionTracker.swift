@@ -11,19 +11,40 @@ import CoreLocation
 
 class SessionTracker: NSObject {
     
+    private var session: Session?
+    private var onProgressUpdated: (([CLLocationCoordinate2D]) -> Void)?
+
     func startNewSession(
+        sessionId: Int,
         locationManager: CLLocationManager,
-        onProgressUpdated: () -> Void,
-        onSessionFinished: () -> Void
+        onProgressUpdated: @escaping ([CLLocationCoordinate2D]) -> Void
     ) {
+        self.session = Session(id: sessionId)
+        self.onProgressUpdated = onProgressUpdated
+        
         locationManager.delegate = self
         locationManager.startUpdatingLocation()
+    }
+    
+    func hasActiveSession() -> Bool {
+        self.session != nil
+    }
+    
+    func finishSession(locationManager: CLLocationManager) -> Session? {
+        locationManager.stopUpdatingLocation()
+        locationManager.delegate = nil
+        return self.session
     }
 }
 
 extension SessionTracker : CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
+        locations.forEach {
+            self.session?.addPoint(point: $0)
+        }
+        if let session = self.session {
+            self.onProgressUpdated?(session.getPoints())
+        }
     }
 }
