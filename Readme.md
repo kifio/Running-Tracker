@@ -1,6 +1,6 @@
 # Running Tracker
 
-https://github.com/kifio/Running-Tracker/blob/master/simulator_screenshot.png?raw=true
+![](https://github.com/kifio/Running-Tracker/blob/master/simulator_screenshot.png?raw=true)
 
 Simple running/walking/cycling tracker.
 Required access to user location.
