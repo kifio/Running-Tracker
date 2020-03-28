@@ -40,11 +40,13 @@ class SessionTracker: NSObject {
 extension SessionTracker : CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        locations.forEach {
-            self.session?.addPoint(point: $0)
-        }
-        if let session = self.session {
-            self.onProgressUpdated?(session.getPoints())
+        DispatchQueue.global(qos: .utility).async {
+            locations.forEach {
+                self.session?.addPoint(point: $0)
+            }
+            if let session = self.session {
+                self.onProgressUpdated?(session.getPoints())
+            }
         }
     }
 }

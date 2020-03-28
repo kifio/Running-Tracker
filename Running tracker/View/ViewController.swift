@@ -12,6 +12,7 @@ import MapKit
 protocol SessionView : class {
     func requestLocationPermissions()
     func drawPolyline(polyline: MKGeodesicPolyline, region: MKCoordinateRegion)
+    func moveCameraToUserLocation(region: MKCoordinateRegion)
 }
 
 class ViewController: UIViewController, SessionView {
@@ -55,6 +56,8 @@ class ViewController: UIViewController, SessionView {
         self.setupNavigationBar(navigationBar)
         self.setupMapView(navigationBar)
         self.setupTableView()
+        
+        self.presenter?.requestLocation()
     }
     
     private func setupNavigationBar(_ navigationBar: UINavigationBar) {
@@ -72,10 +75,10 @@ class ViewController: UIViewController, SessionView {
     
     @objc func navigationItemClicked() {
         if self.presenter?.hasActiveSession() == false {
-            //            self.navigationItem.rightBarButtonItem = self.finishSessionItem
+            self.navigationItem.rightBarButtonItem = self.finishSessionItem
             self.presenter?.startNewSession()
         } else {
-            //            self.navigationItem.rightBarButtonItem = self.startSessionItem
+            self.navigationItem.rightBarButtonItem = self.startSessionItem
             self.presenter?.finishSession()
         }
     }
@@ -83,6 +86,8 @@ class ViewController: UIViewController, SessionView {
     private func setupMapView(_ navigationBar: UINavigationBar) {
         
         self.mapView = MKMapView()
+        self.mapView.delegate = self
+        self.mapView.showsUserLocation = true
         self.mapView.layer.cornerRadius = cornerRadius
         self.mapView.layer.masksToBounds = true
         
@@ -135,11 +140,21 @@ class ViewController: UIViewController, SessionView {
     
     func drawPolyline(polyline: MKGeodesicPolyline, region: MKCoordinateRegion) {
         self.mapView.addOverlay(polyline)
-
         UIView.animate(withDuration: 0.5, animations: { () -> Void in
-//            let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
-//            let region1 = MKCoordinateRegion(center: point1, span: span)
-//            self.map.setRegion(region1, animated: true)
+            self.mapView.setRegion(region, animated: true)
         })
+    }
+    
+    func moveCameraToUserLocation(region: MKCoordinateRegion) {
+        self.mapView.setRegion(region, animated: false)
+    }
+}
+
+extension ViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = UIColor.orange
+        renderer.lineWidth = 3
+        return renderer
     }
 }

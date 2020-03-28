@@ -16,6 +16,7 @@
 		4093184A2428D14000B21622 /* Running_trackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409318492428D14000B21622 /* Running_trackerTests.swift */; };
 		40931863242A76AC00B21622 /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40931862242A76AC00B21622 /* Presenter.swift */; };
 		40931866242A76D300B21622 /* SessionTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40931865242A76D300B21622 /* SessionTracker.swift */; };
+		D1D13F1D242F6C4100FEDBB5 /* yegoryevsk.gpx in Resources */ = {isa = PBXBuildFile; fileRef = D1D13F1C242F6C4100FEDBB5 /* yegoryevsk.gpx */; };
 		FB036D6A242BAE640069D27C /* StartSessionUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB036D69242BAE640069D27C /* StartSessionUseCase.swift */; };
 		FB036D6D242BAEF70069D27C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB036D6C242BAEF70069D27C /* CoreLocation.framework */; };
 		FBFD668C242D10B800770B31 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBFD668B242D10B800770B31 /* Session.swift */; };
@@ -45,6 +46,7 @@
 		4093184B2428D14000B21622 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		40931862242A76AC00B21622 /* Presenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presenter.swift; sourceTree = "<group>"; };
 		40931865242A76D300B21622 /* SessionTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTracker.swift; sourceTree = "<group>"; };
+		D1D13F1C242F6C4100FEDBB5 /* yegoryevsk.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = yegoryevsk.gpx; sourceTree = "<group>"; };
 		FB036D69242BAE640069D27C /* StartSessionUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartSessionUseCase.swift; sourceTree = "<group>"; };
 		FB036D6C242BAEF70069D27C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		FBFD668B242D10B800770B31 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 		409318232428D13E00B21622 = {
 			isa = PBXGroup;
 			children = (
+				D1D13F1C242F6C4100FEDBB5 /* yegoryevsk.gpx */,
 				4093182E2428D13E00B21622 /* Running tracker */,
 				409318482428D14000B21622 /* Running trackerTests */,
 				4093182D2428D13E00B21622 /* Products */,
@@ -238,6 +241,7 @@
 			files = (
 				4093183F2428D14000B21622 /* LaunchScreen.storyboard in Resources */,
 				4093183C2428D14000B21622 /* Assets.xcassets in Resources */,
+				D1D13F1D242F6C4100FEDBB5 /* yegoryevsk.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
