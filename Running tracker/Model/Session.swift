@@ -53,10 +53,6 @@ class Session {
     }
     
     func getDuration(formatter: DateComponentsFormatter) -> String? {
-        //        let formatter = DateComponentsFormatter()
-        //        formatter.unitsStyle = .full
-        //        formatter.allowedUnits = [.month, .day, .hour, .minute, .second]
-        //        formatter.maximumUnitCount = 2
         return formatter.string(from: self.startTime, to: self.finishTime)
     }
     

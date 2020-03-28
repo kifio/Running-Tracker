@@ -12,10 +12,18 @@ import CoreLocation
 
 class Presenter: NSObject {
     
+    private weak var view: SessionView?
+    
     private let locationManager = CLLocationManager()
     private let storage: Storage
-    private weak var view: SessionView?
     private var sessionTracker: SessionTracker? = nil
+    private var sessions: [Session] = [Session]()
+    
+    var sessionsCount: Int {
+        get {
+            return self.sessions.count
+        }
+    }
     
     init(view: SessionView) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -80,8 +88,10 @@ class Presenter: NSObject {
             DispatchQueue.global(qos: .utility).async {
                 self.storage.save(session: session, onSave: {
                     self.storage.fetchSessions(onFetch: { sessions in
+                        self.sessions.removeAll()
+                        self.sessions.append(contentsOf: sessions)
                         DispatchQueue.main.async {
-                            
+                            self.view?.reloadData()
                         }
                     })
                 })
@@ -97,8 +107,10 @@ class Presenter: NSObject {
     func getFinishedSessions() {
         DispatchQueue.global(qos: .utility).async {
             self.storage.fetchSessions(onFetch: { sessions in
+                self.sessions.removeAll()
+                self.sessions.append(contentsOf: sessions)
                 DispatchQueue.main.async {
-                    
+                    self.view?.reloadData()
                 }
             })
         }
@@ -115,6 +127,10 @@ class Presenter: NSObject {
         case .denied, .restricted:
             self.view?.requestLocationPermissions()
         }
+    }
+    
+    func getSession(index: Int) -> Session? {
+        return self.sessions[index]
     }
 }
 

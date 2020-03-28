@@ -10,6 +10,7 @@ import UIKit
 import MapKit
 
 protocol SessionView : class {
+    func reloadData()
     func requestLocationPermissions()
     func drawPolyline(polyline: MKGeodesicPolyline, region: MKCoordinateRegion)
     func moveCameraToUserLocation(region: MKCoordinateRegion)
@@ -33,6 +34,8 @@ class ViewController: UIViewController, SessionView {
     private var startSessionItem: UIBarButtonItem!
     private var finishSessionItem: UIBarButtonItem!
     
+    private let formatter = DateComponentsFormatter()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.presenter = Presenter(view: self)
@@ -52,6 +55,10 @@ class ViewController: UIViewController, SessionView {
         guard let navigationBar = self.navigationController?.navigationBar else {
             return
         }
+        
+        self.formatter.unitsStyle = .full
+        self.formatter.allowedUnits = [.month, .day, .hour, .minute, .second]
+        self.formatter.maximumUnitCount = 2
         
         self.setupNavigationBar(navigationBar)
         self.setupMapView(navigationBar)
@@ -118,12 +125,15 @@ class ViewController: UIViewController, SessionView {
     private func setupTableView() {
         self.sessionsView = UITableView()
         self.sessionsView.translatesAutoresizingMaskIntoConstraints = false
+        self.sessionsView.dataSource = self
+        self.sessionsView.delegate = self
+        self.sessionsView.register(UITableViewCell.self, forCellReuseIdentifier: "session_cell")
         self.view.addSubview(sessionsView)
         
         let guide = self.view.safeAreaLayoutGuide
         self.sessionsView.trailingAnchor.constraint(equalTo: guide.trailingAnchor).isActive = true
         self.sessionsView.leadingAnchor.constraint(equalTo: guide.leadingAnchor).isActive = true
-        self.sessionsView.topAnchor.constraint(equalTo: self.mapView.bottomAnchor, constant: mapHeight).isActive = true
+        self.sessionsView.topAnchor.constraint(equalTo: self.mapView.bottomAnchor, constant: verticalOffset).isActive = true
         self.sessionsView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
     }
     
@@ -149,6 +159,10 @@ class ViewController: UIViewController, SessionView {
     func moveCameraToUserLocation(region: MKCoordinateRegion) {
         self.mapView.setRegion(region, animated: false)
     }
+    
+    func reloadData() {
+        self.sessionsView.reloadData()
+    }
 }
 
 extension ViewController: MKMapViewDelegate {
@@ -157,5 +171,27 @@ extension ViewController: MKMapViewDelegate {
         renderer.strokeColor = UIColor.orange
         renderer.lineWidth = 3
         return renderer
+    }
+}
+
+extension ViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
+}
+
+extension ViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.presenter?.sessionsCount ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "session_cell")
+        let session = self.presenter?.getSession(index: indexPath.row)
+        cell.textLabel?.text = session?.getDuration(formatter: self.formatter)
+        //           cell.textLabel?.text = userViewData.name
+        //           cell.detailTextLabel?.text = userViewData.age
+        return cell
     }
 }
