@@ -13,17 +13,20 @@ import CoreLocation
 class Presenter: NSObject {
     
     private let locationManager = CLLocationManager()
+    private let storage: Storage
     private weak var view: SessionView?
     private var sessionTracker: SessionTracker? = nil
     
     init(view: SessionView) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        self.storage = Storage(context: appDelegate.persistentContainer.viewContext)
         self.view = view
     }
     
     func startNewSession() {
         let startSessionUseCase = StartSessionUseCase()
         self.sessionTracker = startSessionUseCase.startSession(
-            sessionId: 0,
+            sessionId: storage.getNewSessionId(),
             locationManager: self.locationManager,
             onLocationStatusNotDetermined: {
                 self.locationManager.requestWhenInUseAuthorization()
@@ -73,13 +76,32 @@ class Presenter: NSObject {
     
     func finishSession() {
         self.locationManager.delegate = self
-        let session = self.sessionTracker?.finishSession(locationManager: locationManager)
-        // TODO: Save session
+        if let session = self.sessionTracker?.finishSession(locationManager: locationManager) {
+            DispatchQueue.global(qos: .utility).async {
+                self.storage.save(session: session, onSave: {
+                    self.storage.fetchSessions(onFetch: { sessions in
+                        DispatchQueue.main.async {
+                            
+                        }
+                    })
+                })
+            }
+        }
         self.sessionTracker = nil
     }
     
     func hasActiveSession() -> Bool {
         return self.sessionTracker?.hasActiveSession() == true
+    }
+    
+    func getFinishedSessions() {
+        DispatchQueue.global(qos: .utility).async {
+            self.storage.fetchSessions(onFetch: { sessions in
+                DispatchQueue.main.async {
+                    
+                }
+            })
+        }
     }
     
     func requestLocation() {

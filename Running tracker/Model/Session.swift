@@ -11,6 +11,7 @@ import CoreLocation
 
 struct LocationPoint {
     let sessionId: Int
+    let index: Int
     let lat: Double
     let lon: Double
 }
@@ -18,21 +19,29 @@ struct LocationPoint {
 class Session {
     
     let id: Int
-    private let startTime: TimeInterval
-    private var points: [LocationPoint]
-    private var finishtime: TimeInterval
+    let startTime: Date
+    var points: [LocationPoint]
+    var finishTime: Date
     
     init(id: Int) {
         self.id = id
-        self.startTime = NSDate().timeIntervalSince1970
-        self.finishtime = startTime
+        self.startTime = Date()
+        self.finishTime = startTime
         self.points = [LocationPoint]()
+    }
+    
+    init(id: Int, startTime: Date, finishTime: Date, points: [LocationPoint]) {
+        self.id = id
+        self.startTime = startTime
+        self.finishTime = finishTime
+        self.points = points
     }
     
     func addPoint(point: CLLocation) {
         self.points.append(
             LocationPoint(
                 sessionId: id,
+                index: self.points.count,
                 lat: point.coordinate.latitude,
                 lon: point.coordinate.longitude
             )
@@ -40,11 +49,15 @@ class Session {
     }
     
     func finishSession() {
-        self.finishtime = NSDate().timeIntervalSince1970
+        self.finishTime = Date()
     }
     
-    func getDuration() -> TimeInterval {
-        return self.finishtime - self.startTime
+    func getDuration(formatter: DateComponentsFormatter) -> String? {
+        //        let formatter = DateComponentsFormatter()
+        //        formatter.unitsStyle = .full
+        //        formatter.allowedUnits = [.month, .day, .hour, .minute, .second]
+        //        formatter.maximumUnitCount = 2
+        return formatter.string(from: self.startTime, to: self.finishTime)
     }
     
     func getPoints() -> [CLLocationCoordinate2D] {

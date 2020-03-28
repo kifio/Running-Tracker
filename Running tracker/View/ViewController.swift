@@ -58,6 +58,7 @@ class ViewController: UIViewController, SessionView {
         self.setupTableView()
         
         self.presenter?.requestLocation()
+        self.presenter?.getFinishedSessions()
     }
     
     private func setupNavigationBar(_ navigationBar: UINavigationBar) {
