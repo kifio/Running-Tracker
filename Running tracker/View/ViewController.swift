@@ -57,7 +57,7 @@ class ViewController: UIViewController, SessionView {
         }
         
         self.formatter.unitsStyle = .full
-        self.formatter.allowedUnits = [.month, .day, .hour, .minute, .second]
+        self.formatter.allowedUnits = [.minute, .second]
         self.formatter.maximumUnitCount = 2
         
         self.setupNavigationBar(navigationBar)
@@ -82,6 +82,7 @@ class ViewController: UIViewController, SessionView {
     }
     
     @objc func navigationItemClicked() {
+        clearMap()
         if self.presenter?.hasActiveSession() == false {
             self.navigationItem.rightBarButtonItem = self.finishSessionItem
             self.presenter?.startNewSession()
@@ -156,6 +157,11 @@ class ViewController: UIViewController, SessionView {
         })
     }
     
+    private func clearMap() {
+        let overlays = self.mapView.overlays
+        self.mapView.removeOverlays(overlays)
+    }
+    
     func moveCameraToUserLocation(region: MKCoordinateRegion) {
         self.mapView.setRegion(region, animated: false)
     }
@@ -176,7 +182,17 @@ extension ViewController: MKMapViewDelegate {
 
 extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        clearMap()
+        if let session = self.presenter?.getSession(index: indexPath.row) {
+            DispatchQueue.global(qos: .utility).async {
+                let points = session.getPoints()
+                let polyline = MKGeodesicPolyline(coordinates: points, count: points.count)
+                let region = MKCoordinateRegion(MKPolygon(coordinates: points, count: points.count).boundingMapRect)
+                DispatchQueue.main.async {
+                    self.drawPolyline(polyline: polyline, region: region)
+                }
+            }
+        }
     }
 }
 
@@ -190,8 +206,6 @@ extension ViewController: UITableViewDataSource {
         let cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "session_cell")
         let session = self.presenter?.getSession(index: indexPath.row)
         cell.textLabel?.text = session?.getDuration(formatter: self.formatter)
-        //           cell.textLabel?.text = userViewData.name
-        //           cell.detailTextLabel?.text = userViewData.age
         return cell
     }
 }

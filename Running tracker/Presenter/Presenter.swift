@@ -44,7 +44,7 @@ class Presenter: NSObject {
             },
             onSessionStarted: {
                 
-        },
+            },
             onProgressUpdated: { [weak self] points in
                 let polyline = MKGeodesicPolyline(coordinates: points, count: points.count)
                 var region: MKCoordinateRegion
@@ -85,16 +85,11 @@ class Presenter: NSObject {
     func finishSession() {
         self.locationManager.delegate = self
         if let session = self.sessionTracker?.finishSession(locationManager: locationManager) {
+            session.finishSession()
+            self.sessions.insert(session, at: 0)
+            self.view?.reloadData()
             DispatchQueue.global(qos: .utility).async {
-                self.storage.save(session: session, onSave: {
-                    self.storage.fetchSessions(onFetch: { sessions in
-                        self.sessions.removeAll()
-                        self.sessions.append(contentsOf: sessions)
-                        DispatchQueue.main.async {
-                            self.view?.reloadData()
-                        }
-                    })
-                })
+                self.storage.save(session: session)
             }
         }
         self.sessionTracker = nil

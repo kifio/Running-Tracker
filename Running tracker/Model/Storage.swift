@@ -16,8 +16,7 @@ class Storage {
         self.context = context
     }
     
-    func save(session: Session,
-              onSave: () -> (Void)) {
+    func save(session: Session) {
         let sessionEntity = NSEntityDescription.entity(forEntityName: "Sessions", in: context)
         
         let sessionObject = NSManagedObject(entity: sessionEntity!, insertInto: context)
