@@ -17,6 +17,7 @@ class StartSessionUseCase: NSObject {
         onLocationStatusNotDetermined: @escaping () -> Void,
         onLocationDenied: @escaping () -> Void,
         onSessionStarted: @escaping () -> Void,
+        onTimeUpdated: @escaping (Int) -> Void,
         onProgressUpdated: @escaping ([CLLocationCoordinate2D]) -> Void
     ) -> SessionTracker? {
         let locStatus = CLLocationManager.authorizationStatus()
@@ -32,6 +33,7 @@ class StartSessionUseCase: NSObject {
             sessionTracker.startNewSession(
                 sessionId: sessionId,
                 locationManager: locationManager,
+                onTimeUpdated: onTimeUpdated,
                 onProgressUpdated: onProgressUpdated
             )
             onSessionStarted()

@@ -39,11 +39,14 @@ class Presenter: NSObject {
             onLocationStatusNotDetermined: {
                 self.locationManager.requestWhenInUseAuthorization()
             },
-            onLocationDenied: { [weak self] in
-                self?.view?.requestLocationPermissions()
+            onLocationDenied: {
+                self.view?.requestLocationPermissions()
             },
             onSessionStarted: {
                 
+            },
+            onTimeUpdated: { sessionDuration in
+                self.view?.updateTime(duration: sessionDuration)
             },
             onProgressUpdated: { [weak self] points in
                 let polyline = MKGeodesicPolyline(coordinates: points, count: points.count)
@@ -88,7 +91,7 @@ class Presenter: NSObject {
             session.finishSession()
             self.sessions.insert(session, at: 0)
             self.view?.reloadData()
-            DispatchQueue.global(qos: .utility).async {
+            DispatchQueue.main.async {
                 self.storage.save(session: session)
             }
         }

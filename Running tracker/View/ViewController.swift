@@ -10,6 +10,7 @@ import UIKit
 import MapKit
 
 protocol SessionView : class {
+    func updateTime(duration: Int)
     func reloadData()
     func requestLocationPermissions()
     func drawPolyline(polyline: MKGeodesicPolyline, region: MKCoordinateRegion)
@@ -83,6 +84,7 @@ class ViewController: UIViewController, SessionView {
     
     @objc func navigationItemClicked() {
         clearMap()
+        self.title = nil
         if self.presenter?.hasActiveSession() == false {
             self.navigationItem.rightBarButtonItem = self.finishSessionItem
             self.presenter?.startNewSession()
@@ -169,6 +171,10 @@ class ViewController: UIViewController, SessionView {
     func reloadData() {
         self.sessionsView.reloadData()
     }
+    
+    func updateTime(duration: Int) {
+        self.title = formatter.string(from: Double(duration))
+    }
 }
 
 extension ViewController: MKMapViewDelegate {
@@ -186,6 +192,7 @@ extension ViewController: UITableViewDelegate {
         if let session = self.presenter?.getSession(index: indexPath.row) {
             DispatchQueue.global(qos: .utility).async {
                 let points = session.getPoints()
+                guard !points.isEmpty else { return }
                 let polyline = MKGeodesicPolyline(coordinates: points, count: points.count)
                 let region = MKCoordinateRegion(MKPolygon(coordinates: points, count: points.count).boundingMapRect)
                 DispatchQueue.main.async {
