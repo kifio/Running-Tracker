@@ -118,10 +118,10 @@ class Presenter: NSObject {
         self.locationManager.delegate = self
         let locStatus = CLLocationManager.authorizationStatus()
         switch locStatus {
-        case .authorizedAlways, .authorizedWhenInUse:
+        case .authorizedAlways:
             self.locationManager.startUpdatingLocation()
-        case .notDetermined:
-            self.locationManager.requestWhenInUseAuthorization()
+        case .notDetermined, .authorizedWhenInUse:
+            self.locationManager.requestAlwaysAuthorization()
         case .denied, .restricted:
             self.view?.requestLocationPermissions()
         }
